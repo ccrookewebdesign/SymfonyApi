@@ -18,73 +18,46 @@ class SubnetController extends AbstractController {
    */
   public function index(){
 
-     /* $subnet = new Subnet();
-        $subnet->setSubnet('198.178.91.0');
-        $subnet->setCidr(28);
+    /* $publicDir = $this->getParameter('kernel.project_dir');
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($subnet);
-        $entityManager->flush();
-        
+    $subnetsJson = json_decode(file_get_contents($publicDir . '\public\subnets.json'));
+
+    foreach($subnetsJson as $subnetJson){
+      $subnet = new Subnet();
+      $subnet->setSubnet($subnetJson->subnet);
+      $subnet->setCidr($subnetJson->cidr);
+      
+      $entityManager = $this->getDoctrine()->getManager();
+      $entityManager->persist($subnet);
+
+      foreach($subnetJson->ips as $subnetJsonIp){
         $ip = new Ip();
-        $ip->setIp('198.178.91.0');
-        $ip->setAddressTag('<eq_03_xnbwb_4_mgmt_ip>');
-        // relates this product to the subnet
+        $ip->setIp($subnetJsonIp->ip);
+        $ip->setAddressTag($subnetJsonIp->address_tag);
         $ip->setSubnet($subnet);
 
-        $ip2 = new Ip();
-        $ip2->setIp('198.178.91.1');
-        $ip2->setAddressTag('<opz_xd_5_primary_uplink_netwk_ip>');
-        $ip2->setSubnet($subnet);
-
-        $ip3 = new Ip();
-        $ip3->setIp('198.178.91.2');
-        $ip3->setAddressTag('<opz_xd_5_primary_uplink_broadcast_ip>');
-        // relates this product to the subnet
-        $ip3->setSubnet($subnet);
-
-        
-        $entityManager->persist($ip);
-        $entityManager->persist($ip2);
-        $entityManager->persist($ip3);
-        $entityManager->flush();  */
-
-
-
-
-
-
-
-
-
-
+        $entityManager->persist($ip);        
+      }
+      
+      $entityManager->flush();
+    } */
+    
     $subnets = $this->getDoctrine()->getRepository(Subnet::class)->findAll();
     
-
+    // may not need to do all of this and instead just pass $subnets through
     $subnetsArray = [];
 
     foreach ($subnets as $subnet){
-      //$ips = $this->getDoctrine()->getRepository(Ip::class)->findBy(['subnet_id' => $subnet->getId()]);
       $data = [
         'id' => (int) $subnet->getId(),
         'subnet' => (string) $subnet->getSubnet(),
         'cidr' => (int) $subnet->getCidr(),
-         'ips' => $subnet->getIps()->toArray(),
-        //'ips' => [],
+        'ips' => $subnet->getIps()->toArray(),
       ];
 
-      /* foreach ($ips as $ip){
-        $newIp = ['ip' => $ip->getIp(), 'address_tag' => $ip->getAddressTag()];
-        $data['ips'][] = $newIp;
-      } */
-      
       $subnetsArray[] = $data; 
     }
 
-    /* foreach($subnetsArray[0]['ips'] as $ip){
-      dump($ip);
-    }
-    die; */
     return new JsonResponse(['subnets' => $subnetsArray]);
   }
   
