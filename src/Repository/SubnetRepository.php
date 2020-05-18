@@ -20,6 +20,7 @@ class SubnetRepository extends ServiceEntityRepository{
 
   /**
    * returns a 'json serialized' array of subnets and child ips
+   * @todo implement serializer... maybe?
    */
   public function getSubnets(): array{
     $subnets = $this->findAll();
@@ -34,7 +35,13 @@ class SubnetRepository extends ServiceEntityRepository{
       ];
 
       foreach ($subnet->getIps() as $ip){
-        $newIp = ['id' => $ip->getId(), 'subnet_id' => $ip->getSubnetId(), 'ip' => $ip->getIp(), 'address_tag' => $ip->getAddressTag()];
+        $newIp = [
+          'id' => $ip->getId(),
+          'subnet_id' => $ip->getSubnetId(),
+          'ip' => $ip->getIp(),
+          'address_tag' => $ip->getAddressTag()
+        ];
+        
         $data['ips'][] = $newIp;
       }
     
