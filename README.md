@@ -11,8 +11,7 @@ ex: C:\xampp\apache\conf\extra\httpd-vhosts.conf
 Add:
 <VirtualHost *:80>
     DocumentRoot "C:/xampp/htdocs/blueallyapi/public"
-    ServerName blueallyapi.test
-</VirtualHost>
+    ServerName blueallyapi.test<\/VirtualHost>
 
 **Start Server**
 Local environment used XAMPP and Apache. In XAMPP Control Panel start Apache and MySql servers.
