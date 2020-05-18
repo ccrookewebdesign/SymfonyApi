@@ -16,8 +16,8 @@ Add:
 **Start Server**  
 Local environment used XAMPP and Apache. In XAMPP Control Panel start Apache and MySql servers.  
 
-**Run these three commands in project directory:**  
-*install packages, create database, seed data from json file*  
+**Install packages, Create database, and Seed data from json file**  
+*Run these three commands in project directory:*  
 
 * composer install
 * php bin/console doctrine:database:create
